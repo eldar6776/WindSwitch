@@ -1,0 +1,22 @@
+----------------------------------------------------------------------------------------------------------------------------------
+NCDrill File Report For: DE-230724.PcbDoc   24. 7. 2024.  16:54:16
+----------------------------------------------------------------------------------------------------------------------------------
+
+Layer Pair : Top Layer to Bottom Layer
+ASCII RoundHoles File : DE-230724.TXT
+
+Tool       Hole Size               Hole Tolerance               Hole Type       Hole Count   Plated         Tool Travel
+----------------------------------------------------------------------------------------------------------------------------------
+T1      10mil (0.254mm)                                           Round             21        PTH        2.41inch (61.20mm)
+T2      24mil (0.599mm)                                           Round             24        PTH        3.47inch (88.01mm)
+T3      30mil (0.762mm)                                           Round             4         PTH        1.22inch (31.00mm)
+T4      32mil (0.8mm)                                             Round             4         PTH        1.91inch (48.39mm)
+T5      34mil (0.851mm)                                           Round             4         PTH        1.82inch (46.24mm)
+T6      35mil (0.899mm)                                           Round             17        PTH        5.96inch (151.38mm)
+T7      39mil (1.001mm)                                           Round             24        PTH        7.99inch (202.96mm)
+T8      47mil (1.199mm)                                           Round             2         PTH        0.41inch (10.46mm)
+T9      158mil (4.001mm)                                          Round             2         PTH        2.42inch (61.40mm)
+----------------------------------------------------------------------------------------------------------------------------------
+Totals                                                                              102
+
+Total Processing Time (hh:mm:ss) : 00:00:00

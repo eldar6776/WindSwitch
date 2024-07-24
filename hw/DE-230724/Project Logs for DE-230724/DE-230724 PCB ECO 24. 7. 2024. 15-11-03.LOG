@@ -1,0 +1,5 @@
+Added Component: Designator=P2(TERMINAL BLOK 2)
+Add component. Clean all parameters for all variants
+Added Pin To Net: NetName=NetD1_1 Pin=P2-1
+Added Pin To Net: NetName=NetD1_2 Pin=P2-2
+Added Member To Class: ClassName=DE-230724 Member=Component P2 220Vac

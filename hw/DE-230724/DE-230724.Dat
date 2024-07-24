@@ -1,0 +1,30 @@
+﻿Field=#~Integer~#~50|Field=Comment~String~Comment~100|Field=Description~String~Description~100|Field=Designator~String~Designator~100|Field=Footprint~String~Footprint~100|Field=LibRef~String~LibRef~100|Field=Quantity~Integer~Quantity~100|ReportField=Currency~<none>|ReportField=ProductionQuantity~1|ReportField=ProjectFileName~DE-230724.PrjPcb|ReportField=ProjectFullPath~D:\ProjektiOtvoreni\WindSwitch\hw\DE-230724\DE-230724.PrjPcb|ReportField=Title~Bill of Materials For Project [DE-230724.PrjPcb] (No PCB Document Selected)|ReportField=TotalQuantity~62|ReportField=ReportTime~16:43:26|ReportField=ReportDate~24. 7. 2024.|ReportField=ReportDateTime~24. 7. 2024. 16:43:26|ReportField=OutputName~Bill of Materials|ReportField=OutputType~BOM_PartType|ReportField=GeneratorName~BOM|ReportField=GeneratorDescription~Bill of Materials|ReportField=VariantName~None|ReportField=Address1~Braće Mulić 81|ReportField=Address2~71000 Sarajevo|ReportField=Address3~Federacija BiH|ReportField=Address4~Bosna i Hercegovina|ReportField=Application_BuildNumber~|ReportField=ApprovedBy~|ReportField=Author~eldar6776@hotmail.com|ReportField=CheckedBy~|ReportField=CompanyName~|ReportField=CurrentDate~24. 7. 2024.|ReportField=CurrentTime~16:30:15|ReportField=Date~|ReportField=DocumentFullPathAndName~D:\ProjektiOtvoreni\WindSwitch\hw\DE-230724\DE-230724.SchDoc|ReportField=DocumentName~DE-230724.SchDoc|ReportField=DocumentNumber~DE-230724|ReportField=DrawnBy~Eldar Dedić|ReportField=Engineer~|ReportField=ImagePath~|ReportField=ModifiedDate~24. 7. 2024.|ReportField=Organization~JUBERA d.o.o.|ReportField=ProjectName~DE-230724.PrjPcb|ReportField=Revision~001|ReportField=Rule~|ReportField=SheetNumber~1|ReportField=SheetTotal~1|ReportField=Time~|ReportField=Title~Zaštita od vjetra|ReportField=DataSourceFileName~DE-230724.PrjPcb|ReportField=DataSourceFullPath~D:\ProjektiOtvoreni\WindSwitch\hw\DE-230724\DE-230724.PrjPcb|ReportField=PCBConfigurationName~Sources|ReportField=Item~|ReportField=ItemRevision~|ReportField=ItemAndRevision~|ReportField=ItemRevisionBase~|ReportField=ItemRevisionLevel1~|ReportField=ItemRevisionLevel2~|ReportField=ItemRevisionLevel1AndBase~|ReportField=ItemRevisionLevel2AndLevel1~
+1|C0603|Ceramic Chip Capacitor - 25V, Ceramic Chip Capacitor - 25V, Ceramic Chip Capacitor - 25V, Ceramic Chip Capacitor - 25V, Ceramic Chip Capacitor - Standard, Ceramic Chip Capacitor - Standard|C1, C2, C4, C5, C8, C10|0603|C0603|6
+2|C0805|Ceramic Chip Capacitor - 25V|C3|0805|C0805|1
+3|330nF  X2|Dipped Radial Multilayer Ceramic Capacitor COG (NPO): 330nF 275VAC X2|C6|0,33uF X2|0,33uF X2|1
+4|22uF|Aluminum Electrolytic Capacitor, Radial Style with Long Leads: 47uF, 35V|C7|CAPPR2-5X11|EKA00AA247F00|1
+5|470uF|Aluminum Electrolytic Capacitor, Radial Style with Long Leads: 470uF, 25V|C9|CAPPR5-10X12.5|EKA00DC347E00|1
+6|BTA16-600|Triacs, Silicon Bidirectional Thyristor, 3-Pin TO-220, Pb-Free, Tube|D1, D2, D3, D4|ONSC-TO-220-3-221A-07|BTA08-600BW3G|4
+7|STATUS_LED||D5|LED 3mm|LED 3mm|1
+8|1N4007|1 Amp General Purpose Rectifier|D6, D7, D9, D11|SMB|Diode 1N4007|4
+9|HOLD_LED||D8|LED 3mm|LED 3mm|1
+10|9V1|High Conductance Fast Diode|D10|DO-41|Diode 1N914|1
+11|Fuse 1|Fuse|F1|PIN-W2/E2.8|Fuse 1|1
+12|BLM15AG121|Inductor|L1|0603|Inductor_SMD|1
+13|PULSE|Terminal blok konektor 3,5 mm|P1|TERMINAL BLOK 2 - 7mm|TERMINAL BLOK 2|1
+14|220Vac|Terminal blok konektor 3,5 mm|P2, P3, P4, P5|TERMINAL BLOK 2 - 3,5mm|TERMINAL BLOK 2|4
+15|ICSP|Header, 3-Pin|P6|HDR1X3|Header 3|1
+16|ACIN|Terminal blok konektor 3,5 mm|P7|TERMINAL BLOK 2 - 7mm|TERMINAL BLOK 2|1
+17|BC817|NPN General-purpose Transistor|Q1|SOT23_N|BC817|1
+18|1K|Metal Film Thermosensitive Chip Resistor, 0.56 Ohm to 10k Ohm Range, 5% Tolerance, 0603 Size, 0.063 W|R1, R19|ERA-0603|ERAV|2
+19|220R|Metal Film Thermosensitive Chip Resistor, 0.56 Ohm to 10k Ohm Range, 5% Tolerance, 0805 Size, 0.1 W|R2, R3, R4, R7, R8, R9, R11, R12, R13, R14, R15, R16|ERA-0805|ERAS|12
+20|RPot|Potentiometer|R5, R10|HDR1X3|RPot|2
+21|10K|Metal Film Thermosensitive Chip Resistor, 0.56 Ohm to 10k Ohm Range, 5% Tolerance, 0603 Size, 0.063 W|R6, R17, R20, R22|ERA-0603|ERAV|4
+22|470R|Metal Film Thermosensitive Chip Resistor, 0.56 Ohm to 10k Ohm Range, 5% Tolerance, 0603 Size, 0.063 W|R18|ERA-0603|ERAV|1
+23|Res2|Resistor|R21|AXIAL-0.4|Res2|1
+24|Res1|Resistor|R23|AXIAL-0.3|Res1|1
+25|PC817|4-Pin Phototransistor Optocoupler|U1|DIP-4|PC817|1
+26|MOC3081|Zero-Cross Optoisolator Triac Driver|U2, U3, U4, U6|DIP6|MOC3081|4
+27|STM32F030F4P6|ARM Cortex-M0 32-bit MCU, 16 KB Flash, 4 KB Internal RAM, 15 I/Os, 20-pin TSSOP, -40 to 85 degC, Tube|U5|STM-TSSOP20_N|STM32F030F4P6|1
+28|TLV803MDBZR|Voltage Supervisor with Active-Low, Open Drain Reset, 1 Supply Monitored, -40 to 125 degC, 3-pin SOT-23 (DBZ), Green (RoHS & no Sb/Br)|U7|DBZ3_N|TLV803MDBZR|1
+29|REG1117-3.3|800mA and 1A Low Dropout Positive Regulator 2.85V, 3.3V, 5V, and Adjustable|U8|ZZ311|REG1117-3.3|1

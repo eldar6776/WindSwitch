@@ -1,0 +1,5 @@
+Added Component: Designator=D8(LED 3mm)
+Add component. Clean all parameters for all variants
+Added Pin To Net: NetName=NetD8_1 Pin=D8-1
+Added Pin To Net: NetName=HOLD_LED Pin=D8-2
+Added Member To Class: ClassName=DE-230724 Member=Component D8 HOLD_LED

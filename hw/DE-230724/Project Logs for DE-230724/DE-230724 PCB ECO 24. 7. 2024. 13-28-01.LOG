@@ -1,0 +1,3 @@
+Change Component Footprint: Designator=P1 Old Footprint=TERMINAL BLOK 2 New Footprint=TERMINAL BLOK 2 - 3,5mm
+Change Component Footprint: Designator=P7 Old Footprint=TERMINAL BLOK 2 New Footprint=TERMINAL BLOK 2 - 3,5mm
+Change Component Comment : Designator=P7 Old Comment=220Vac New Comment=ACIN
