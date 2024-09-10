@@ -67,9 +67,6 @@ void Error_Handler(void);
 #define STATUS_LED_GPIO_Port GPIOA
 #define HOLD_LED_Pin GPIO_PIN_4
 #define HOLD_LED_GPIO_Port GPIOA
-#define PULSE_Pin GPIO_PIN_1
-#define PULSE_GPIO_Port GPIOB
-#define PULSE_EXTI_IRQn EXTI0_1_IRQn
 
 /* USER CODE BEGIN Private defines */
 
