@@ -4,9 +4,9 @@ D:\ProjektiOtvoreni\WindSwitch\hw\DE-230724\Project Outputs for DE-230724\Pick P
 ========================================================================================================================
 File Design Information:
 
-Date:       24/07/24
-Time:       16:54
-Revision:   0
+Date:       16/11/24
+Time:       16:56
+Revision:   6e8555f7cce9009a00746bd731cd360a9d83c5dc
 Variant:    No variations
 Units used: mil
 
@@ -30,13 +30,13 @@ Units used: mil
 "C8","C0603","BottomLayer","0603","1080.000","1635.000","270","Ceramic Chip Capacitor - Standard"
 "C9","470uF","TopLayer","CAPPR5-10X12.5","980.000","1080.000","270","Aluminum Electrolytic Capacitor, Radial Style with Long Leads: 470uF, 25V"
 "C10","C0603","BottomLayer","0603","915.000","1080.000","90","Ceramic Chip Capacitor - Standard"
-"D10","9V1","TopLayer","DO-41","780.000","1370.000","360","High Conductance Fast Diode"
+"D10","9V1","TopLayer","DO-41","780.000","1370.000","0","High Conductance Fast Diode"
 "F1","Fuse 1","TopLayer","PIN-W2/E2.8","80.000","720.000","90","Fuse"
 "L1","BLM15AG121","TopLayer","0603","995.000","1530.000","0","Inductor"
-"P3","220Vac","TopLayer","TERMINAL_BLOK_2_-_3,5mm","688.976","3110.236","270","Terminal blok konektor 3,5 mm"
-"P4","220Vac","TopLayer","TERMINAL_BLOK_2_-_3,5mm","1082.677","3110.236","270","Terminal blok konektor 3,5 mm"
-"P5","220Vac","TopLayer","TERMINAL_BLOK_2_-_3,5mm","1476.378","3110.236","270","Terminal blok konektor 3,5 mm"
-"P6","ICSP","TopLayer","HDR1X3","825.000","2000.000","360","Header, 3-Pin"
+"","220Vac","TopLayer","TERMINAL_BLOK_2_-_3,5mm","688.976","3110.236","270","Terminal blok konektor 3,5 mm"
+"","220Vac","TopLayer","TERMINAL_BLOK_2_-_3,5mm","1082.677","3110.236","270","Terminal blok konektor 3,5 mm"
+"","220Vac","TopLayer","TERMINAL_BLOK_2_-_3,5mm","1476.378","3110.236","270","Terminal blok konektor 3,5 mm"
+"P6","ICSP","TopLayer","HDR1X3","825.000","2000.000","0","Header, 3-Pin"
 "Q1","BC817","TopLayer","SOT23_N","1682.598","2001.339","90","NPN General-purpose Transistor"
 "R1","1K","TopLayer","ERA-0603","1295.000","440.000","0","Metal Film Thermosensitive Chip Resistor, 0.56 Ohm to 10k Ohm Range, 5% Tolerance, 0603 Size, 0.063 W"
 "R2","220R","BottomLayer","ERA-0805","235.000","2335.000","270","Metal Film Thermosensitive Chip Resistor, 0.56 Ohm to 10k Ohm Range, 5% Tolerance, 0805 Size, 0.1 W"
@@ -56,11 +56,11 @@ Units used: mil
 "R16","220R","BottomLayer","ERA-0805","1320.000","2545.000","270","Metal Film Thermosensitive Chip Resistor, 0.56 Ohm to 10k Ohm Range, 5% Tolerance, 0805 Size, 0.1 W"
 "R17","10K","TopLayer","ERA-0603","845.000","1860.000","90","Metal Film Thermosensitive Chip Resistor, 0.56 Ohm to 10k Ohm Range, 5% Tolerance, 0603 Size, 0.063 W"
 "R18","470R","TopLayer","ERA-0603","1540.000","2045.000","180","Metal Film Thermosensitive Chip Resistor, 0.56 Ohm to 10k Ohm Range, 5% Tolerance, 0603 Size, 0.063 W"
-"R19","1K","TopLayer","ERA-0603","1540.000","1960.000","360","Metal Film Thermosensitive Chip Resistor, 0.56 Ohm to 10k Ohm Range, 5% Tolerance, 0603 Size, 0.063 W"
+"R19","1K","TopLayer","ERA-0603","1540.000","1960.000","0","Metal Film Thermosensitive Chip Resistor, 0.56 Ohm to 10k Ohm Range, 5% Tolerance, 0603 Size, 0.063 W"
 "R20","10K","TopLayer","ERA-0603","225.000","1380.000","180","Metal Film Thermosensitive Chip Resistor, 0.56 Ohm to 10k Ohm Range, 5% Tolerance, 0603 Size, 0.063 W"
 "R21","Res2","TopLayer","AXIAL-0.4","210.000","690.000","90","Resistor"
 "R22","10K","TopLayer","ERA-0603","1205.000","1380.000","180","Metal Film Thermosensitive Chip Resistor, 0.56 Ohm to 10k Ohm Range, 5% Tolerance, 0603 Size, 0.063 W"
-"R23","Res1","TopLayer","AXIAL-0.3","880.000","350.000","360","Resistor"
+"R23","Res1","TopLayer","AXIAL-0.3","880.000","350.000","0","Resistor"
 "U1","PC817","TopLayer","DIP-4","1620.000","980.000","90","4-Pin Phototransistor Optocoupler"
 "U5","STM32F030F4P6","TopLayer","STM-TSSOP20_N","1120.000","1765.000","90","ARM Cortex-M0 32-bit MCU, 16 KB Flash, 4 KB Internal RAM, 15 I/Os, 20-pin TSSOP, -40 to 85 degC, Tube"
 "U7","TLV803MDBZR","TopLayer","DBZ3_N","740.000","1860.000","90","Voltage Supervisor with Active-Low, Open Drain Reset, 1 Supply Monitored, -40 to 125 degC, 3-pin SOT-23 (DBZ), Green (RoHS & no Sb/Br)"
@@ -70,6 +70,6 @@ Units used: mil
 "D7","1N4007","TopLayer","SMB","279.987","1090.000","90","1 Amp General Purpose Rectifier"
 "D9","1N4007","TopLayer","SMB","701.666","1090.000","90","1 Amp General Purpose Rectifier"
 "D11","1N4007","TopLayer","SMB","561.106","1101.811","270","1 Amp General Purpose Rectifier"
-"P2","220Vac","TopLayer","TERMINAL_BLOK_2_-_3,5mm","295.276","3110.236","270","Terminal blok konektor 3,5 mm"
+"","220Vac","TopLayer","TERMINAL_BLOK_2_-_3,5mm","295.276","3110.236","270","Terminal blok konektor 3,5 mm"
 "D8","HOLD_LED","TopLayer","LED_3mm","1377.953","1377.953","0",""
 "D5","STATUS_LED","TopLayer","LED_3mm","393.701","1377.953","0",""
