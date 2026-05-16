@@ -4,7 +4,7 @@
 
 WindSwitch is a complete embedded hardware-and-firmware project designed to protect external roller shutters on residential buildings from strong wind conditions. The system monitors an anemometer pulse signal, evaluates wind intensity against adjustable user settings, and automatically commands shutters into a safe raised position when dangerous wind persists.
 
-This repository contains the firmware, hardware production assets, and project documentation required to understand, reproduce, and deploy the system.
+This repository contains the firmware, hardware production assets, project documentation, and assembled device imagery required to understand, reproduce, and deploy the system.
 
 ---
 
@@ -13,6 +13,14 @@ This repository contains the firmware, hardware production assets, and project d
 External roller shutters can be damaged by sustained wind loads and repeated gust impacts. WindSwitch addresses this problem with a dedicated controller that continuously supervises wind activity and reacts automatically when the configured trigger condition is met.
 
 The design is intended for practical field use, with simple on-device adjustment and a focused control strategy suited to real weather behavior.
+
+---
+
+## Assembled Device
+
+![Assembled WindSwitch device](assets/images/device-assembled.jpg)
+
+The image above shows the assembled WindSwitch controller as implemented in hardware.
 
 ---
 
@@ -62,6 +70,9 @@ This architecture is optimized for a compact, single-purpose protection controll
 ```text
 WindSwitch/
 ├── README.md
+├── assets/
+│   └── images/
+│       └── device-assembled.jpg
 ├── doc/
 │   ├── WindSwitch.pdf
 │   └── WindSwitch.pptx
@@ -115,6 +126,7 @@ Available hardware assets include:
 - board design directory under `hw/DE-230724/`
 - fabrication output archive
 - fabrication test output archive
+- assembled device image under `assets/images/`
 
 Together with the firmware and documentation folders, this repository represents a complete development package for the WindSwitch device.
 
