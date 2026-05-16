@@ -1,98 +1,149 @@
 # WindSwitch
 
-**Zaštitni uređaj za vanjske rolo roletne od jakog vjetra**
+**Embedded controller for automatic wind protection of external roller shutters**
+
+WindSwitch is a complete embedded hardware-and-firmware project designed to protect external roller shutters on residential buildings from strong wind conditions. The system monitors an anemometer pulse signal, evaluates wind intensity against adjustable user settings, and automatically commands shutters into a safe raised position when dangerous wind persists.
+
+This repository contains the firmware, hardware production assets, and project documentation required to understand, reproduce, and deploy the system.
 
 ---
 
-## Opis
+## Overview
 
-WindSwitch je elektronski uređaj namijenjen za zaštitu rolo roletni na stambenim objektima od oštećenja uzrokovanih jakim vjetrom. Uređaj se napaja sa 220V i na ulazu koristi optocoupler izolovani impulsni ulaz iz anemometra (senzora vjetra). Kada vjetar premaši zadani prag brzine na definisano vrijeme, WindSwitch automatski aktivira podizače roletni preko četiri izolovana triaca, čime štiti roletne od oštećenja.
+External roller shutters can be damaged by sustained wind loads and repeated gust impacts. WindSwitch addresses this problem with a dedicated controller that continuously supervises wind activity and reacts automatically when the configured trigger condition is met.
 
----
-
-## Ključne funkcije
-
-- **Optocoupler ulaz:** Sigurna galvanska izolacija za impulse sa anemometra.
-- **Dva potenciometra na prednjem panelu:**
-  - **Prvi potenciometar:** Podešavanje praga okidanja (broj impulsa = brzina vjetra).
-  - **Drugi potenciometar:** Podešavanje minimalnog vremena aktivnog stanja (koliko dugo roletne ostaju podignute nakon aktivacije).
-- **Logika aktivacije:** Uređaj aktivira izlaz (triaci) samo ako je brzina vjetra viša od praga više od 5 sekundi.
-- **Automatski restart vremena:** Svaki ponovni prelazak praga okidanja resetuje aktivno vrijeme.
-- **4 izolovana izlaza:** Kontrola podizača roletni putem triaca.
-- **LED indikatori:** Signalizacija stanja uređaja.
+The design is intended for practical field use, with simple on-device adjustment and a focused control strategy suited to real weather behavior.
 
 ---
 
-## Tehničke karakteristike
+## Core Function
 
-- **Napajanje:** 220V AC
-- **Ulaz:** Optocoupler impulsni ulaz sa anemometra
-- **Izlazi:** 4 x triac, izolovani, za aktivaciju podizača roletni
-- **Mikrokontroler:** STM32 (C, HAL biblioteka)
-- **Potenciometri:** Za prag vjetra i vrijeme aktivnog stanja
-- **LED indikacija:** Status i aktivacija
+WindSwitch receives pulse signals from an anemometer and uses pulse frequency as an indicator of wind intensity.
 
----
+When wind remains above the configured threshold long enough to confirm a real event, the controller activates the output and commands the shutters to raise. After activation, the shutters remain in the raised position for the configured active period. If a new wind event above the threshold occurs during that interval, the timer is refreshed, providing retriggerable protection behavior.
 
-## Povezivanje
-
-1. **Napajanje:** Priključiti uređaj na 220V.
-2. **Anemometar:** Spojiti impulsni izlaz anemometra na optocoupler ulaz WindSwitch-a.
-3. **Izlazi:** Povezati podizače roletni na četiri izlazna terminala (triaci).
-4. **Potenciometri:** Podesiti prag vjetra i trajanje aktivnog stanja prema potrebama objekta.
-5. **LED:** Pratiti indikaciju stanja (status, aktivacija, greške).
+This operating model helps prevent false triggering from short gusts while maintaining protection during unstable wind conditions.
 
 ---
 
-## Logika rada
+## Main Features
 
-- **Mjerenje vjetra:** Uređaj broji impulse sa anemometra i koristi mapiranje ADC vrijednosti potenciometra za određivanje praga.
-- **Aktivacija:** Ako je brzina vjetra veća od praga kontinuirano više od 5 sekundi, aktiviraju se izlazi (podizači roletni).
-- **Trajanje aktivnog stanja:** Drugi potenciometar određuje minimalno vrijeme koliko roletne ostaju podignute.
-- **Reset vremena:** Svaki prelazak praga tokom aktivnog stanja resetuje timer za podignute roletne.
-- **Bez prelaska praga:** Roletne ostaju u standardnom položaju.
-
----
-
-## Instalacija i korištenje
-
-1. Postavite WindSwitch na sigurno mjesto unutar objekta.
-2. Spojite napajanje, impulsni ulaz sa anemometra i izlaze prema šemi povezivanja.
-3. Podesite prag vjetra i vrijeme aktivnog stanja.
-4. Pokrenite uređaj, LED indikatori signaliziraju status rada.
-5. Pratite rad uređaja – kad vjetar premaši prag, roletne se automatski podižu na zadano vrijeme.
+- Automatic wind-triggered protection of external roller shutters
+- Adjustable wind trigger threshold
+- Adjustable timing parameter for activation / hold behavior
+- Retriggerable active interval for repeated gust events
+- Anemometer pulse-frequency measurement
+- STM32-based embedded control platform
+- Isolated sensor input interface
+- Output control stage for shutter actuation
+- LED indication for system state and active hold state
+- Hardware design and fabrication files included
+- Project documentation included
 
 ---
 
-## Tehnologije
+## System Architecture
 
-- **C (STM32 HAL)**
-- **Optocoupler, triac izlazi**
-- **Analogni potenciometri za podešavanje**
-- **LED indikacija**
-- **Sigurnosni watchdog timer**
+The repository contents and firmware structure indicate the following system model:
 
----
+- **Wind sensor input:** pulse-output anemometer
+- **Signal evaluation:** timer input capture used to measure pulse frequency
+- **User adjustment:** analog settings read through ADC inputs
+- **Control logic:** state-based trigger and hold behavior
+- **Output stage:** shutter control output for automatic raise command
+- **Status interface:** dedicated LEDs for activity and hold indication
 
-## Sigurnosne napomene
-
-- Uređaj radi sa visokonaponskim izlazima – instalaciju vrši kvalificirani električar!
-- Pravilno izolujte sve priključke.
-- Redovno provjeravajte ispravnost anemometra i podizača roletni.
-- Ne otvarajte uređaj pod naponom.
+This architecture is optimized for a compact, single-purpose protection controller.
 
 ---
 
-## Autor
+## Repository Structure
 
-- [Eldar6776](https://github.com/eldar6776)
+```text
+WindSwitch/
+├── README.md
+├── doc/
+│   ├── WindSwitch.pdf
+│   └── WindSwitch.pptx
+├── fw/
+│   └── DE-070924/
+│       ├── Core/
+│       ├── Drivers/
+│       ├── MDK-ARM/
+│       ├── .mxproject
+│       └── DE-070924.ioc
+└── hw/
+    ├── DE-230724/
+    ├── DE-230724_FabricationOutput.zip
+    └── DE-230724_FabricationOutputTest.zip
+```
 
 ---
 
-## Licence
+## Firmware
 
-Uređaj koristi STM32 HAL biblioteku. Softver je dostupan "AS-IS", bez garancije.
+The firmware is located in `fw/DE-070924/` and targets the **STM32F030F4P6** microcontroller.
+
+### Firmware characteristics
+
+- Implemented in **C**
+- Based on **STM32 HAL**
+- Configured through **STM32CubeMX** project files
+- Uses **TIM3 input capture** for wind pulse measurement
+- Uses **ADC channels** for reading threshold and timing settings
+- Implements a simple trigger / hold state machine
+- Drives separate status and hold LEDs
+- Supports optional independent watchdog operation
+
+### Relevant configured signals
+
+- `PA0` — threshold setting input
+- `PA1` — timing setting input
+- `PA2` — output control
+- `PA3` — status LED
+- `PA4` — hold/activity LED
+- `PB1` — wind sensor pulse input
 
 ---
 
-Za sva pitanja i podršku, otvorite issue na [repozitoriju](https://github.com/eldar6776/WindSwitch).
+## Hardware
+
+The hardware section contains PCB-related project data and manufacturing outputs.
+
+Available hardware assets include:
+
+- board design directory under `hw/DE-230724/`
+- fabrication output archive
+- fabrication test output archive
+
+Together with the firmware and documentation folders, this repository represents a complete development package for the WindSwitch device.
+
+---
+
+## Documentation
+
+The `doc/` directory contains supporting project material:
+
+- `doc/WindSwitch.pdf`
+- `doc/WindSwitch.pptx`
+
+These files provide additional technical and presentation context for the project.
+
+---
+
+## Application Context
+
+WindSwitch is intended for residential installations using external roller shutters exposed to outdoor wind conditions. It is especially suitable where shutters need automatic protection without requiring immediate user intervention.
+
+The project is focused, practical, and directly tied to a real deployment scenario.
+
+---
+
+## Safety Notice
+
+This project includes hardware intended for use with real electrical installations and shutter control systems.
+
+- Installation should be performed by a qualified person.
+- Proper isolation, enclosure design, and mains-safety practices are required.
+- Compatibility with the selected anemometer and shutter interface should be verified before deployment.
+- The device must not be serviced while energized.
