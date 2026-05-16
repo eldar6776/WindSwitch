@@ -1,60 +1,63 @@
 # WindSwitch
 
-**A dedicated embedded controller for automatic wind protection of external roller shutters.**
+**Embedded controller for automatic wind protection of external roller shutters**
 
-WindSwitch is a complete hardware-and-firmware project for protecting residential external roller shutters from strong wind conditions. The system monitors an anemometer pulse signal, evaluates wind intensity against a user-adjustable threshold, and automatically commands the shutters into a safe raised position when hazardous conditions persist.
+WindSwitch is a complete embedded hardware-and-firmware project designed to protect external roller shutters on residential buildings from strong wind conditions. The system monitors an anemometer pulse signal, evaluates wind intensity against adjustable user settings, and automatically commands shutters into a safe raised position when dangerous wind persists.
 
-The device is designed for practical deployment, not just demonstration. It combines a compact STM32-based control platform, isolated sensor interfacing, configurable activation behavior, and hardware design files required for manufacturing and integration.
+This repository contains the firmware, hardware production assets, and project documentation required to understand, reproduce, and deploy the system.
 
 ---
 
-## What WindSwitch Does
+## Overview
 
-WindSwitch continuously measures wind activity using a pulse-output anemometer. When the measured wind level exceeds a configured threshold for long enough to confirm a real event, the controller activates the shutter-raise output.
+External roller shutters can be damaged by sustained wind loads and repeated gust impacts. WindSwitch addresses this problem with a dedicated controller that continuously supervises wind activity and reacts automatically when the configured trigger condition is met.
 
-After activation, the shutters remain raised for a configurable hold period. If a new wind event above the trigger threshold occurs during that active interval, the timer is restarted. This gives the system **retriggerable protection behavior**, which is especially useful in unstable weather with repeated gusts.
+The design is intended for practical field use, with simple on-device adjustment and a focused control strategy suited to real weather behavior.
 
-In short, WindSwitch is built to:
+---
 
-- protect external roller shutters from wind damage
-- reduce false triggering caused by short gusts
-- keep shutters in a safe state while dangerous wind persists
-- provide simple field adjustment without firmware modification
+## Core Function
+
+WindSwitch receives pulse signals from an anemometer and uses pulse frequency as an indicator of wind intensity.
+
+When wind remains above the configured threshold long enough to confirm a real event, the controller activates the output and commands the shutters to raise. After activation, the shutters remain in the raised position for the configured active period. If a new wind event above the threshold occurs during that interval, the timer is refreshed, providing retriggerable protection behavior.
+
+This operating model helps prevent false triggering from short gusts while maintaining protection during unstable wind conditions.
 
 ---
 
 ## Main Features
 
-- **Automatic wind-based shutter protection**
-- **Adjustable wind trigger threshold**
-- **Adjustable activation / hold timing**
-- **Retriggerable timing logic** for repeated gust events
-- **Anemometer pulse-frequency measurement**
-- **STM32-based embedded control firmware**
-- **Isolated sensor input stage**
-- **Triac-based output control architecture**
-- **Visual status indication through LEDs**
-- **Hardware design and fabrication files included**
-- **Supporting documentation included**
+- Automatic wind-triggered protection of external roller shutters
+- Adjustable wind trigger threshold
+- Adjustable timing parameter for activation / hold behavior
+- Retriggerable active interval for repeated gust events
+- Anemometer pulse-frequency measurement
+- STM32-based embedded control platform
+- Isolated sensor input interface
+- Output control stage for shutter actuation
+- LED indication for system state and active hold state
+- Hardware design and fabrication files included
+- Project documentation included
 
 ---
 
-## System Behavior
+## System Architecture
 
-The repository contents and firmware implementation indicate the following operating model:
+The repository contents and firmware structure indicate the following system model:
 
-1. An anemometer provides pulse output proportional to wind speed.
-2. The controller measures pulse frequency using timer input capture.
-3. A user-adjustable threshold determines the wind level that should trigger protection.
-4. A user-adjustable timing parameter defines how long the condition must persist and/or how long the system remains active.
-5. Once the wind condition is confirmed, the output is asserted and shutters are commanded to raise.
-6. While the system is active, any new threshold crossing refreshes the active timer.
+- **Wind sensor input:** pulse-output anemometer
+- **Signal evaluation:** timer input capture used to measure pulse frequency
+- **User adjustment:** analog settings read through ADC inputs
+- **Control logic:** state-based trigger and hold behavior
+- **Output stage:** shutter control output for automatic raise command
+- **Status interface:** dedicated LEDs for activity and hold indication
 
-This behavior makes WindSwitch well-suited for real outdoor conditions where wind is irregular, intermittent, and often bursty rather than steady.
+This architecture is optimized for a compact, single-purpose protection controller.
 
 ---
 
-## Repository Contents
+## Repository Structure
 
 ```text
 WindSwitch/
@@ -77,94 +80,70 @@ WindSwitch/
 
 ---
 
-## Firmware Overview
+## Firmware
 
 The firmware is located in `fw/DE-070924/` and targets the **STM32F030F4P6** microcontroller.
 
-### Observed firmware characteristics
+### Firmware characteristics
 
-- Written in **C** using **STM32 HAL**
+- Implemented in **C**
+- Based on **STM32 HAL**
 - Configured through **STM32CubeMX** project files
-- Uses **TIM3 input capture** to measure incoming wind-sensor pulse frequency
-- Uses **ADC channels** to read analog user settings
-- Implements output logic as a simple state machine
-- Drives dedicated status and hold/activity LEDs
-- Includes optional **independent watchdog** support
+- Uses **TIM3 input capture** for wind pulse measurement
+- Uses **ADC channels** for reading threshold and timing settings
+- Implements a simple trigger / hold state machine
+- Drives separate status and hold LEDs
+- Supports optional independent watchdog operation
 
-### Key control signals from the project configuration
+### Relevant configured signals
 
 - `PA0` — threshold setting input
-- `PA1` — delay / timing setting input
+- `PA1` — timing setting input
 - `PA2` — output control
 - `PA3` — status LED
 - `PA4` — hold/activity LED
-- `PB1` — timer capture input from wind sensor
-
-This firmware structure strongly supports the intended use case of a small, reliable, single-purpose field controller.
+- `PB1` — wind sensor pulse input
 
 ---
 
-## Hardware Overview
+## Hardware
 
-The hardware section contains PCB-related project outputs and manufacturing archives, indicating that the project includes real board development and fabrication preparation.
+The hardware section contains PCB-related project data and manufacturing outputs.
 
 Available hardware assets include:
 
-- hardware design directory under `hw/DE-230724/`
+- board design directory under `hw/DE-230724/`
 - fabrication output archive
 - fabrication test output archive
 
-Together with the firmware and documentation folders, this suggests that the repository represents a complete product-development package rather than only source code.
+Together with the firmware and documentation folders, this repository represents a complete development package for the WindSwitch device.
 
 ---
 
-## Documentation Assets
+## Documentation
 
-The `doc/` directory contains project documentation material:
+The `doc/` directory contains supporting project material:
 
 - `doc/WindSwitch.pdf`
 - `doc/WindSwitch.pptx`
 
-These files can be used to support installation, presentation, technical communication, or project handoff.
+These files provide additional technical and presentation context for the project.
 
 ---
 
-## Practical Value of the Project
+## Application Context
 
-WindSwitch solves a clear real-world problem: external roller shutters can be damaged by strong or repeated wind loads, especially when left unattended. By automating the protective response, the system improves both equipment safety and user convenience.
+WindSwitch is intended for residential installations using external roller shutters exposed to outdoor wind conditions. It is especially suitable where shutters need automatic protection without requiring immediate user intervention.
 
-The strongest aspect of this project is its practical focus:
-
-- dedicated purpose
-- simple user adjustment model
-- embedded control implementation
-- deployable hardware assets
-- clear integration path with wind sensing and shutter actuation
-
-This makes WindSwitch a credible embedded control product for residential weather protection applications.
+The project is focused, practical, and directly tied to a real deployment scenario.
 
 ---
 
 ## Safety Notice
 
-This project includes hardware intended for interfacing with real electrical installations and shutter control systems.
+This project includes hardware intended for use with real electrical installations and shutter control systems.
 
 - Installation should be performed by a qualified person.
-- Proper isolation, enclosure, and mains-safety practices are required.
-- Compatibility with the selected anemometer and shutter system should be verified before deployment.
-- The device should never be serviced while energized.
-
----
-
-## Suggested Next Improvements for the Repository
-
-If desired, the repository can be improved further with:
-
-- product photos of the assembled device
-- PCB renders or schematic snapshots
-- wiring diagram examples
-- a short build / flash guide for firmware
-- a calibration guide for threshold and timing settings
-- installation examples for single-home deployments
-
-These additions would make the project even stronger for presentation, manufacturing handoff, and field adoption.
+- Proper isolation, enclosure design, and mains-safety practices are required.
+- Compatibility with the selected anemometer and shutter interface should be verified before deployment.
+- The device must not be serviced while energized.
