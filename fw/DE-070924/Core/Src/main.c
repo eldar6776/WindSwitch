@@ -51,7 +51,7 @@ TIM_HandleTypeDef htim3;
 #define DONE   1
 #define F_CLK  8000000UL
 #define ADC_READOUT_PERIOD 100
-#define TRIGGER_TIME 2000 // 1s wind treshold to trigger shutter down
+#define TRIGGER_TIME 5000 //  wind treshold to trigger shutter down
 
 volatile uint8_t gu8_State = IDLE, tick = 0, tickcnt = 0, redled = 0, init = 0;
 volatile uint8_t gu8_MSG[35] = {'\0'};
@@ -540,7 +540,7 @@ static void ADC3_Read(void)
 			tmp_val = 0U;
 			for(t = 0U; t < 10U; t++) tmp_val += delay_sample[t];
 			tmp_val = tmp_val / 10U;
-			delay = map(tmp_val, 0, 4095, 0, 100);
+			delay = map(tmp_val, 0, 4095, 0, 50);
 			adc_cnt = 0;
 		}
 	}

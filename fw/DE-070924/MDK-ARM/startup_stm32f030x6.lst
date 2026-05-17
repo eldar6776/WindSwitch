@@ -329,11 +329,11 @@ ork --depend=de-070924\startup_stm32f030x6.d -ode-070924\startup_stm32f030x6.o
 ARM Macro Assembler    Page 6 
 
 
--I.\RTE\_DE-070924 -IG:\Repository\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include -IG
-:\Repository\Packs\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\I
-nclude --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 530"
- --predefine="_RTE_ SETA 1" --predefine="STM32F030x6 SETA 1" --predefine="_RTE_
- SETA 1" --list=startup_stm32f030x6.lst startup_stm32f030x6.s
+-I.\RTE\_DE-070924 -IC:\Repo\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include -IC:\Repo
+\Packs\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include --pre
+define="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 538" --predefine
+="_RTE_ SETA 1" --predefine="STM32F030x6 SETA 1" --predefine="_RTE_ SETA 1" --l
+ist=startup_stm32f030x6.lst startup_stm32f030x6.s
 
 
 

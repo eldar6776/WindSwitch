@@ -1,0 +1,362 @@
+/* USER CODE BEGIN Header */
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2024 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
+/* USER CODE END Header */
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#include <stdlib.h>
+/* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+typedef enum
+{
+	BUZZ_OFF = 0,
+	BUZZ_CARD_VALID,
+	BUZZ_CARD_INVALID,
+	BUZZ_ERROR
+} buzz_tdf;
+
+typedef enum
+{
+	LED_OFF = 0,
+	LED_CARD_VALID,
+	LED_CARD_INVALID,
+	LED_CARD_BLOCKED,
+	LED_ERROR
+} led_tdf;
+
+typedef enum
+{
+	SYS_OK = 0,
+	SYS_TXRX,
+	SYS_ERR
+} status_tdf;
+
+typedef enum
+{
+	CLOSED = 0,
+	OPEN
+} doorlock_tdf;
+
+doorlock_tdf door = CLOSED;
+status_tdf state = SYS_OK;
+led_tdf led = LED_OFF;
+buzz_tdf buzz = BUZZ_OFF;
+const uint16_t max_card_number = 250;
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
+/* Private variables ---------------------------------------------------------*/
+I2C_HandleTypeDef hi2c1;
+
+IWDG_HandleTypeDef hiwdg;
+
+RTC_HandleTypeDef hrtc;
+CRC_HandleTypeDef hcrc;
+UART_HandleTypeDef huart1;
+UART_HandleTypeDef huart2;
+
+/* USER CODE BEGIN PV */
+
+static uint8_t rsadd;
+uint32_t previousTick = 0;
+uint32_t pulseDelay = 100; // Početna vrednost (ms), biće postavljena prema DIP switch-u
+
+/* USER CODE END PV */
+
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+/* USER CODE BEGIN PFP */
+static uint16_t ReadDIP(void);
+
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+	/* USER CODE BEGIN 1 */
+
+	/* USER CODE END 1 */
+
+	/* MCU Configuration--------------------------------------------------------*/
+
+	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+	HAL_Init();
+
+	/* USER CODE BEGIN Init */
+
+	/* USER CODE END Init */
+
+	/* Configure the system clock */
+	SystemClock_Config();
+
+	/* USER CODE BEGIN SysInit */
+
+	/* USER CODE END SysInit */
+
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+
+	/* USER CODE BEGIN 2 */
+
+
+
+	/* USER CODE END 2 */
+
+	/* Infinite loop */
+	/* USER CODE BEGIN WHILE */
+	while(1)
+	{
+        // Povremeno ažuriraj vrednost iz DIP switch-a
+    static uint32_t lastDipRead = 0;
+    if (HAL_GetTick() - lastDipRead >= 500) {  // Čitaj DIP na svakih 500ms
+        lastDipRead = HAL_GetTick();
+        pulseDelay = ReadDIP(); 
+    }
+         if (HAL_GetTick() - previousTick >= pulseDelay) {
+        previousTick = HAL_GetTick(); // Ažuriraj referentni trenutak
+        HAL_GPIO_TogglePin(DOOR_LOCK_GPIO_Port, DOOR_LOCK_Pin); // Toggle impulsa
+        HAL_GPIO_TogglePin(LED_STATUS_GPIO_Port, LED_STATUS_Pin); // Toggle impulsa
+    }
+
+    
+		/* USER CODE END WHILE */
+
+/* USER CODE BEGIN 3 */
+	}
+	/* USER CODE END 3 */
+}
+
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
+void SystemClock_Config(void)
+{
+	RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+	RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+
+	/** Configure LSE Drive Capability
+	*/
+	HAL_PWR_EnableBkUpAccess();
+	__HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_HIGH);
+
+	/** Initializes the RCC Oscillators according to the specified parameters
+	* in the RCC_OscInitTypeDef structure.
+	*/
+	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI | RCC_OSCILLATORTYPE_LSI
+	                                   | RCC_OSCILLATORTYPE_LSE;
+	RCC_OscInitStruct.LSEState = RCC_LSE_ON;
+	RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+	RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+	RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+	RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL12;
+	RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
+	if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	/** Initializes the CPU, AHB and APB buses clocks
+	*/
+	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
+	                              | RCC_CLOCKTYPE_PCLK1;
+	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+
+	if(HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+	{
+		Error_Handler();
+	}
+	PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1 | RCC_PERIPHCLK_I2C1
+	                                     | RCC_PERIPHCLK_RTC;
+	PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK1;
+	PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
+	PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
+	if(HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+	{
+		Error_Handler();
+	}
+}
+
+static void MX_GPIO_Init(void)
+{
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+	/* USER CODE BEGIN MX_GPIO_Init_1 */
+	/* USER CODE END MX_GPIO_Init_1 */
+
+	/* GPIO Ports Clock Enable */
+	__HAL_RCC_GPIOC_CLK_ENABLE();
+	__HAL_RCC_GPIOF_CLK_ENABLE();
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+
+	/*Configure GPIO pin Output Level */
+	HAL_GPIO_WritePin(GPIOB, LED_RED_Pin | LED_GREEN_Pin | BUZZER_Pin | DOOR_LOCK_Pin
+	                  | LED_STATUS_Pin, GPIO_PIN_RESET);
+
+	/*Configure GPIO pin Output Level */
+	HAL_GPIO_WritePin(WR_ENABLE_GPIO_Port, WR_ENABLE_Pin, GPIO_PIN_SET);
+
+	/*Configure GPIO pin : PC13 */
+	GPIO_InitStruct.Pin = GPIO_PIN_13;
+	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+	/*Configure GPIO pins : PF0 PF1 PF6 PF7 */
+	GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_6 | GPIO_PIN_7;
+	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+	/*Configure GPIO pins : PA0 PA1 PA4 PA5
+	                         PA6 PA7 PA8 PA11
+	                         PA15 */
+	GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_4 | GPIO_PIN_5
+	                      | GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_11
+	                      | GPIO_PIN_15;
+	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+	/*Configure GPIO pins : LED_RED_Pin LED_GREEN_Pin BUZZER_Pin DOOR_LOCK_Pin
+	                         LED_STATUS_Pin */
+	GPIO_InitStruct.Pin = LED_RED_Pin | LED_GREEN_Pin | BUZZER_Pin | DOOR_LOCK_Pin
+	                      | LED_STATUS_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+	/*Configure GPIO pins : ADDRESS_1_Pin ADDRESS_2_Pin ADDRESS_4_Pin ADDRESS_8_Pin
+	                         ADDRESS_16_Pin ADDRESS_32_Pin */
+	GPIO_InitStruct.Pin = ADDRESS_1_Pin | ADDRESS_2_Pin | ADDRESS_4_Pin | ADDRESS_8_Pin
+	                      | ADDRESS_16_Pin | ADDRESS_32_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;
+	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+	/*Configure GPIO pin : WR_ENABLE_Pin */
+	GPIO_InitStruct.Pin = WR_ENABLE_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	HAL_GPIO_Init(WR_ENABLE_GPIO_Port, &GPIO_InitStruct);
+
+	/*Configure GPIO pins : PB8 PB9 */
+	GPIO_InitStruct.Pin = GPIO_PIN_8 | GPIO_PIN_9;
+	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+	/* USER CODE BEGIN MX_GPIO_Init_2 */
+	/* USER CODE END MX_GPIO_Init_2 */
+}
+
+/* USER CODE BEGIN 4 */
+/**
+  * @brief  init app
+  * @param  none
+  * @retval none
+  */
+static uint16_t ReadDIP(void)
+{
+	static uint8_t buf[LOG_DSIZE];
+	static uint32_t add;
+
+	rsadd = 0;
+	if(HAL_GPIO_ReadPin(ADDRESS_1_GPIO_Port, ADDRESS_1_Pin) == GPIO_PIN_RESET) rsadd |= 0x01U;
+	if(HAL_GPIO_ReadPin(ADDRESS_2_GPIO_Port, ADDRESS_2_Pin) == GPIO_PIN_RESET) rsadd |= 0x02U;
+	if(HAL_GPIO_ReadPin(ADDRESS_4_GPIO_Port, ADDRESS_4_Pin) == GPIO_PIN_RESET) rsadd |= 0x04U;
+	if(HAL_GPIO_ReadPin(ADDRESS_8_GPIO_Port, ADDRESS_8_Pin) == GPIO_PIN_RESET) rsadd |= 0x08U;
+	if(HAL_GPIO_ReadPin(ADDRESS_16_GPIO_Port, ADDRESS_16_Pin) == GPIO_PIN_RESET) rsadd |= 0x10U;
+	if(HAL_GPIO_ReadPin(ADDRESS_32_GPIO_Port, ADDRESS_32_Pin) == GPIO_PIN_RESET) rsadd |= 0x20U;
+
+}
+/* USER CODE END 4 */
+
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
+void Error_Handler(void)
+{
+	/* USER CODE BEGIN Error_Handler_Debug */
+
+	/* User can add his own implementation to report the HAL error return state */
+	__disable_irq();
+
+
+	/* USER CODE BEGIN Init */
+	HAL_CRC_MspDeInit(&hcrc);
+	HAL_I2C_MspDeInit(&hi2c1);
+	HAL_UART_MspDeInit(&huart1);
+	HAL_UART_MspDeInit(&huart2);
+	HAL_RTC_MspDeInit(&hrtc);
+	HAL_DeInit();
+	HAL_NVIC_SystemReset();
+	/* USER CODE END Init */
+
+	while(1)
+	{
+	}
+	/* USER CODE END Error_Handler_Debug */
+}
+
+#ifdef  USE_FULL_ASSERT
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+void assert_failed(uint8_t *file, uint32_t line)
+{
+	/* USER CODE BEGIN 6 */
+	/* User can add his own implementation to report the file name and line number,
+	   ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+	/* USER CODE END 6 */
+}
+#endif /* USE_FULL_ASSERT */
